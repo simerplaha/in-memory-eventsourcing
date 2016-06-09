@@ -7,6 +7,8 @@ Small application to test an Eventsourced type architecture but keeping all the 
 * PostgresSQL
 * SBT
 
+Required: Update postgres configuration in application.conf.
+
 ## Goal
 - To see if I can use Actors to hold the state of each domain object in memory and to be able to search
 the in memory actors without persisting it's state to another database like in CQRS.
@@ -20,6 +22,10 @@ Look at the following two classes to checkout how to search through the state of
 - [UserSearch.scala](https://github.com/simerplaha/in-memory-eventsourcing/blob/master/eventsourcing/src/main/scala/com/commerce/aggregate/user/UserSearch.scala)
 - [ShopSearch.scala](https://github.com/simerplaha/in-memory-eventsourcing/blob/master/eventsourcing/src/main/scala/com/commerce/aggregate/shop/ShopSearch.scala)
 
+## Events
+
+Set property persistEvents to true in application.conf file to start saving events to database.
+
 ## Actor hierarchy
 
 UserManager -> User -> ShopManager -> Shop
@@ -28,3 +34,4 @@ UserManager -> User -> ShopManager -> Shop
 - Add more comments to the code
 - Improve test cases
 - Add and test more features.
+- Exception messages are not printing out.

@@ -16,8 +16,6 @@ import scala.concurrent.duration._
 
 class UserIntegrationSpec extends TypedSpec with BeforeAndAfterEach with LazyLogging {
 
-  val expectedDuration = 600000.seconds
-
 
   override def beforeEach() {
     logger.info("Deleting all events")
@@ -57,23 +55,22 @@ class UserIntegrationSpec extends TypedSpec with BeforeAndAfterEach with LazyLog
               )(self)
             startWith.withKeepTraces(true) {
               val domain: ActorRef[UserManagerCommand] = ctx.spawn(UserManager.props, "UM")
-              for (i <- 0 until 2) {
+              for (i <- 0 until 100) {
                 val userCommandWrapper = UserManagerChildCommand(createUserCommand.copy(email = Some("email@gmail.com" + i))(self))(self)
                 domain ! userCommandWrapper
               }
 
-              (domain, 2)
-            }.expectMultipleMessages(2 seconds) {
+              (domain, 100)
+            }.expectMessages(2 seconds) {
               case (messages, domain) ⇒
                 println("SIZE:" + messages.size)
-                ctx.spawnAnonymous(Props(UserSearch.findUserWithEmail("email@gmail.com1", domain._1, self)))
+                ctx.spawnAnonymous(Props(UserSearch.findUserWithEmail("email@gmail.com90", domain._1, self)))
                 (domain, 1)
-            }.expectMultipleMessages(2 seconds) {
+            }.expectMessages(2 seconds) {
               case (messages, domain) ⇒
                 println("Found user with email ********************************************")
                 messages foreach println
                 println("SIZE:" + messages.size)
-                Thread.sleep(5000)
             }
         }
       })

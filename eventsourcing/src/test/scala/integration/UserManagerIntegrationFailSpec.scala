@@ -68,7 +68,7 @@ class UserManagerIntegrationFailSpec extends TypedSpec with BeforeAndAfterEach w
               val userCommandWrapper = UserManagerFinder(UM, finder, "test")(self)
               domain ! userCommandWrapper
               (domain, 3)
-            }.expectMultipleMessages(2 seconds) {
+            }.expectMessages(2 seconds) {
               case (messages, (domain, expectedCount)) ⇒
 //                val expectedErrorMessages = ErrorMessages(NonEmptyList(ErrorDBO(ErrorUserCreationIsInProgress(createUserCommand.email.get), Language.English)))
 //                assert(messages.contains(expectedErrorMessages))
@@ -154,7 +154,7 @@ class UserManagerIntegrationFailSpec extends TypedSpec with BeforeAndAfterEach w
 
               domain ! UserManagerChildCommand(createUserCommand)(self)
               (domain, 1)
-            }.expectMultipleMessages(111111 seconds) {
+            }.expectMessages(2 seconds) {
               case (messages, (domain, expectedCount)) ⇒
                 println(messages)
               //                val expectedErrorMessages = ErrorMessages(NonEmptyList(ErrorDBO(EmailIsInvalidError(createUserCommand.email.get), Language.English)))

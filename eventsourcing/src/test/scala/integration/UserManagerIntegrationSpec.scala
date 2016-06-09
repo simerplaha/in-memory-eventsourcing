@@ -191,7 +191,7 @@ class UserManagerIntegrationSpec extends TypedSpec with BeforeAndAfterEach with 
               val userCommandWrapper = UserManagerFinder(UM, finder, "test")(self)
               domain ! userCommandWrapper
               domain
-            }.expectMessage(11111 seconds) {
+            }.expectMessage(2 seconds) {
               //check that inProgressCreateUserCommand is added
               case (message, domain) ⇒
                 assert(message.isInstanceOf[Option[UserManagerState]])
@@ -202,13 +202,13 @@ class UserManagerIntegrationSpec extends TypedSpec with BeforeAndAfterEach with 
                 assertResult(0)(state.userIds.size)
                 assertResult(UserSetting())(state.setting)
                 domain
-            }.expectMessage(11111 seconds) {
+            }.expectMessage(2 seconds) {
               case (message, domain) ⇒
                 // ignore the UserState because we not testing User here
                 assert(message.isInstanceOf[UserState])
                 val userCommandWrapper = UserManagerFinder(UM, finder, "test")(self)
                 domain ! userCommandWrapper
-            }.expectMessage(11111 seconds) {
+            }.expectMessage(2 seconds) {
               case (message, domain) ⇒
                 //check that the inProgressCreateUserCommand is removed after the user is created. i.e. the above set
                 //also check that the UserManager state is updated properly

@@ -90,7 +90,7 @@ object StepWise {
     def expectMessage[V](timeout: FiniteDuration)(f: (T, U) ⇒ V): Steps[T, V] =
       copy(ops = Message(timeout, f.asInstanceOf[(Any, Any) ⇒ Any], getTrace()) :: ops)
 
-    def expectMultipleMessages[V](timeout: FiniteDuration)(f: (Seq[T], U) ⇒ V): Steps[T, V] =
+    def expectMessages[V](timeout: FiniteDuration)(f: (Seq[T], U) ⇒ V): Steps[T, V] =
       copy(ops = MultiMessage(timeout, f.asInstanceOf[(Seq[Any], Any) ⇒ Any], getTrace()) :: ops)
 
     def expectFailure[V](timeout: FiniteDuration)(f: (Failed, U) ⇒ (Failed.Decision, V)): Steps[T, V] =
