@@ -21,7 +21,7 @@ object UserSearch {
 //          val domain: ActorRef[UserManagerCommand] = ctx.spawn(UserManager.props, "UM")
           userManager ! GetCreatedUsers(userManager.path.name, system, "")(self)
           (userManager, 1)
-        }.expectMultipleMessages(500 seconds) {
+        }.expectMultipleMessages(1 seconds) {
           case (users: List[UserAggregatesData], (domain, previousCount)) ⇒
 
             users.head.aggregates foreach {
@@ -32,7 +32,7 @@ object UserSearch {
               replyTo ! None
             }
             (domain, users.head.aggregates.size)
-        }.expectMultipleMessages(500 seconds) {
+        }.expectMultipleMessages(1 seconds) {
           case (users: List[Option[UserState]], (domain, previousCount)) ⇒
             val states = users.collect {
               case Some(state) =>

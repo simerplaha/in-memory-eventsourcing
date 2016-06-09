@@ -23,7 +23,7 @@ object ShopSearch {
         startWith.withKeepTraces(true) {
           shopManager ! GetCreatedShops("", system, "")(self)
           (shopManager, 1)
-        }.expectMultipleMessages(5000 seconds) {
+        }.expectMultipleMessages(1 seconds) {
           case (shops: List[ShopAggregatesData], (domain, previousCount)) ⇒
 
             shops.head.aggregates foreach {
@@ -34,7 +34,7 @@ object ShopSearch {
               replyTo ! None
             }
             (domain, shops.head.aggregates.size)
-        }.expectMultipleMessages(5000 seconds) {
+        }.expectMultipleMessages(1 seconds) {
           case (shops: List[Option[ShopState]], (domain, previousCount)) ⇒
             val states = shops.collect {
               case Some(state) =>
