@@ -34,4 +34,4 @@ UserManager -> User -> ShopManager -> Shop
 - Add more comments to the code
 - Improve test cases
 - Add and test more features.
-- Exception messages are not printing out.
+- Exception messages are not printed in StackTrace when using StepWise because of actor timeout.
